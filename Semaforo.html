@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semáforo Interactivo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .semaforo {
+            width: 120px;
+            background-color: #333;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .luz {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 15px auto;
+            background-color: #444;
+            transition: background-color 0.3s;
+        }
+        
+        .rojo.activo {
+            background-color: #ff3333;
+            box-shadow: 0 0 20px #ff0000;
+        }
+        
+        .amarillo.activo {
+            background-color: #ffcc00;
+            box-shadow: 0 0 20px #ffcc00;
+        }
+        
+        .verde.activo {
+            background-color: #00cc66;
+            box-shadow: 0 0 20px #00cc66;
+        }
+        
+        .mensaje {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+            height: 40px;
+            color: #333;
+        }
+        
+        button {
+            padding: 12px 24px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+<body>
+    <h1>Semáforo Interactivo</h1>
+    
+    <div class="semaforo">
+        <div class="luz rojo activo"></div>
+        <div class="luz amarillo"></div>
+        <div class="luz verde"></div>
+    </div>
+    
+    <div class="mensaje">Alto</div>
+    
+    <button id="siguienteBtn">Siguiente</button>
+
+    <script>
+        // Estados del semáforo
+        const estados = [
+            { color: 'rojo', mensaje: 'Alto' },
+            { color: 'amarillo', mensaje: 'Precaución' },
+            { color: 'verde', mensaje: 'Avanza' }
+        ];
+        
+        let estadoActual = 0;
+        const luces = document.querySelectorAll('.luz');
+        const mensajeElement = document.querySelector('.mensaje');
+        const siguienteBtn = document.getElementById('siguienteBtn');
+        
+        // Función para actualizar el semáforo
+        function actualizarSemaforo() {
+            // Remover la clase 'activo' de todas las luces
+            luces.forEach(luz => {
+                luz.classList.remove('activo');
+            });
+            
+            // Obtener el estado actual
+            const estado = estados[estadoActual];
+            
+            // Activar la luz correspondiente
+            document.querySelector(`.${estado.color}`).classList.add('activo');
+            
+            // Actualizar el mensaje
+            mensajeElement.textContent = estado.mensaje;
+            
+            // Avanzar al siguiente estado
+            estadoActual = (estadoActual + 1) % estados.length;
+        }
+        
+        // Agregar evento al botón
+        siguienteBtn.addEventListener('click', actualizarSemaforo);
+    </script>
+</body>
+</html>
